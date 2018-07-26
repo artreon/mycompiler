@@ -66,16 +66,15 @@
 
 #include <stdio.h>
 #include <string.h>
-int yyerror( char *s ){fprintf(stderr, "%s\n", s );}
-
-int yywrap()
-{
-	return 1;
-}
+#include <iostream>
+extern int yylex();
+extern int yyparse();
 extern FILE *yyin;
 
+void yyerror(const char *s);
 
-#line 79 "simpleparser.tab.c" /* yacc.c:339  */
+
+#line 78 "simpleparser.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -93,7 +92,10 @@ extern FILE *yyin;
 # define YYERROR_VERBOSE 0
 #endif
 
-
+/* In a future release of Bison, this section will be replaced
+   by #include "simpleparser.tab.h".  */
+#ifndef YY_YY_SIMPLEPARSER_TAB_H_INCLUDED
+# define YY_YY_SIMPLEPARSER_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -123,7 +125,18 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 12 "simpleparser.y" /* yacc.c:355  */
+
+	int ival;
+	char *sval;
+
+#line 137 "simpleparser.tab.c" /* yacc.c:355  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -133,11 +146,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-
+#endif /* !YY_YY_SIMPLEPARSER_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 141 "simpleparser.tab.c" /* yacc.c:358  */
+#line 154 "simpleparser.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -435,7 +448,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    18,    18,    21,    24,    27
+       0,    21,    21,    24,    27,    30
 };
 #endif
 
@@ -1209,7 +1222,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1213 "simpleparser.tab.c" /* yacc.c:1646  */
+#line 1226 "simpleparser.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1437,5 +1450,26 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 29 "simpleparser.y" /* yacc.c:1906  */
+#line 32 "simpleparser.y" /* yacc.c:1906  */
 
+
+	int main(int, char**) {
+	// open a file handle to a particular file:
+	FILE *myfile = fopen("simplecode.txt", "r");
+	// make sure it's valid:
+	if (!myfile) {
+		std::cout << "cant open!" << std::endl;
+		return -1;
+	}
+	// Set flex to read from it instead of defaulting to STDIN:
+	yyin = myfile;
+
+	// Parse through the input:
+	yyparse();
+}
+
+void yyerror(const char *s) {
+	std::cout << " parse error.  Message: " << s << std::endl;
+	// might as well halt now:
+	exit(-1);
+}

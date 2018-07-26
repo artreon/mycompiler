@@ -496,7 +496,7 @@ char *yytext;
 // Avoid error "error: 'fileno' was not declared in this scope"
 extern "C" int fileno(FILE *stream);
 
-#include "simpleparser.tab.hpp"
+#include "simpleparser.tab.h"
 
 #line 502 "lex.yy.c"
 
@@ -814,51 +814,52 @@ YY_RULE_SETUP
 case 7:
 YY_RULE_SETUP
 #line 25 "simplelexer.flex"
-{fprintf(stderr, "END_STATEMENT\n", );
+{fprintf(stderr, "END_STATEMENT\n" );
                 return END_STATEMENT;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 28 "simplelexer.flex"
-{ fprintf(stderr, "NUMBER\n", );
+{ yylval.ival = atoi(yytext);
+                fprintf(stderr, "NUMBER\n" );
                 return NUMBER; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 30 "simplelexer.flex"
-{ fprintf(stderr, "RETURN\n", );return RETURN; }
+#line 31 "simplelexer.flex"
+{ fprintf(stderr, "RETURN\n" );return RETURN; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 32 "simplelexer.flex"
-{ fprintf(stderr, "TYPE\n", );return TYPE; }
+#line 33 "simplelexer.flex"
+{ fprintf(stderr, "TYPE\n" );return TYPE; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 33 "simplelexer.flex"
-{ fprintf(stderr, "IDENTIFIER\n", );return IDENTIFIER; }
+#line 34 "simplelexer.flex"
+{ fprintf(stderr, "IDENTIFIER\n" );return IDENTIFIER; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 34 "simplelexer.flex"
-{ fprintf(stderr, "INCLUDE\n", );return INCLUDE; }
+#line 35 "simplelexer.flex"
+{ fprintf(stderr, "INCLUDE\n" );return INCLUDE; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 35 "simplelexer.flex"
-{ fprintf(stderr, "HEADER_NAME\n", );return HEADER_NAME; }
+#line 36 "simplelexer.flex"
+{ fprintf(stderr, "HEADER_NAME\n" );return HEADER_NAME; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 36 "simplelexer.flex"
+#line 37 "simplelexer.flex"
 
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 37 "simplelexer.flex"
+#line 38 "simplelexer.flex"
 ECHO;
 	YY_BREAK
-#line 862 "lex.yy.c"
+#line 863 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1859,4 +1860,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 37 "simplelexer.flex"
+#line 38 "simplelexer.flex"
