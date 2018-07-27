@@ -1,7 +1,9 @@
 %{
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include <iostream>
+#include <cassert>
+#define YYSTYPE char*
 extern int yylex();
 extern int yyparse();
 extern FILE *yyin;
@@ -10,12 +12,15 @@ void yyerror(const char *s);
 
 %}
 %union {
-	int ival;
-	char *sval;
+	int num;
+	char* str;
 }
 %token INCLUDE HEADER_NAME
 %token TYPE IDENTIFIER RETURN NUMBER
 %token L_BRACE R_BRACE L_BRACKET R_BRACKET END_STATEMENT
+
+%type <num> NUMBER
+%type <str> INCLUDE HEADER_NAME TYPE IDENTIFIER
 %%
 program:
 	header function
@@ -31,7 +36,7 @@ expression:
 
 	%%
 
-	int main(int, char**) {
+	int main() {
 
 	FILE *myfile = fopen("simplecode.txt", "r");
 
@@ -42,12 +47,12 @@ expression:
 
 	yyin = myfile;
 
-	
+
 	yyparse();
 }
 
 void yyerror(const char *s) {
-	std::cout << " parse error.  Message: " << s << std::endl;
+	std::cout << " error.  Msg: " << s << std::endl;
 
 	exit(-1);
 }

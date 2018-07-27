@@ -11,8 +11,8 @@ extern "C" int fileno(FILE *stream);
 
 %%
 
-"//"[^\n]*    { /* Discard comments. */ }
-[ \t\n]+      { /* Ignore whitespace */ }
+"//"[^\n]*    {;}
+[ \t\n]+      {;}
 
 "{"			      { fprintf(stderr, "L_BRACE\n");
 						    return L_BRACE; }
@@ -25,13 +25,13 @@ extern "C" int fileno(FILE *stream);
 ";"           {fprintf(stderr, "END_STATEMENT\n" );
                 return END_STATEMENT;}
 
-[0-9]+        { yylval.ival = atoi(yytext);
+[0-9]+        { yylval.num = atoi(yytext);
                 fprintf(stderr, "NUMBER\n" );
                 return NUMBER; }
 "return"      { fprintf(stderr, "RETURN\n" );return RETURN; }
 
 "int"         { fprintf(stderr, "TYPE\n" );return TYPE; }
-"main"        { fprintf(stderr, "IDENTIFIER\n" );return IDENTIFIER; }
+"main"        {fprintf(stderr, "IDENTIFIER\n" );return IDENTIFIER; }
 "#include"    { fprintf(stderr, "INCLUDE\n" );return INCLUDE; }
 "<"[a-z.]+">" { fprintf(stderr, "HEADER_NAME\n" );return HEADER_NAME; }
  %%
