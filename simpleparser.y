@@ -42,7 +42,7 @@ expression:
 
 	yyin = myfile;
 
-	:
+	
 	yyparse();
 }
 

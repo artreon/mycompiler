@@ -7,5 +7,11 @@ simpleparser.tab.c simpleparser.tab.h: simpleparser.y
 lex.yy.c: simplelexer.flex simpleparser.tab.h
 	flex simplelexer.flex
 
-simple: lex.yy.c simpleparser.tab.c simpleparser.tab.h
-		g++ simpleparser.tab.c lex.yy.c -lfl -o simple
+simplething: lex.yy.c simpleparser.tab.c simpleparser.tab.h
+		g++ simpleparser.tab.c lex.yy.c -lfl -o simplething
+
+clean:
+	rm simplething
+	rm *.tab.c
+	rm *.yy.c
+	rm *.tab.h
