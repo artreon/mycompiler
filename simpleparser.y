@@ -1,8 +1,9 @@
 %{
-#include <stdio.h>
+#include <fstream>
 #include <string>
 #include <iostream>
 #include <cassert>
+
 #define YYSTYPE char*
 extern int yylex();
 extern int yyparse();

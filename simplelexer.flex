@@ -4,7 +4,7 @@
 // Avoid error "error: 'fileno' was not declared in this scope"
 extern "C" int fileno(FILE *stream);
 
-#include "simpleparser.tab.h"
+#include "simpleparser.tab.hpp"
 
 %}
 

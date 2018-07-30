@@ -1,17 +1,20 @@
 
 
 
-simpleparser.tab.c simpleparser.tab.h: simpleparser.y
-	bison -d simpleparser.y
+simpleparser.tab.cpp simpleparser.tab.hpp: simpleparser.y
+	bison -v -d simpleparser.y -o simpleparser.tab.cpp
 
-lex.yy.c: simplelexer.flex simpleparser.tab.h
-	flex simplelexer.flex
+lex.yy.cpp: simplelexer.flex simpleparser.tab.hpp
+	flex -o simplelexer.yy.cpp simplelexer.flex
 
-simplething: lex.yy.c simpleparser.tab.c simpleparser.tab.h
-		g++ simpleparser.tab.c lex.yy.c -lfl -o simplething
+simplething: simplelexer.yy.cpp simpleparser.tab.cpp simpleparser.tab.hpp
+		g++ simpleparser.tab.cpp simplelexer.yy.cpp -lfl -o simplething
 
 clean:
+
+	rm *.tab.cpp
+	rm *.yy.cpp
+	rm *.tab.hpp
+	rm *.output
 	rm simplething
-	rm *.tab.c
-	rm *.yy.c
-	rm *.tab.h
+	
