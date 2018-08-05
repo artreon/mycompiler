@@ -29,6 +29,7 @@ LGS						 [Ll]
 ")"			      {fprintf(stderr,"R_BRACKET "); return R_BRACKET;}
 ";"           {fprintf(stderr,"END_STATEMENT\n "); return END_STATEMENT;}
 ","           {fprintf(stderr, "COMMA " ); return COMMA;}
+"&"           {fprintf(stderr, "AMPERSAND " ); return AMPERSAND;}
 
 "="           {fprintf(stderr,"T_EQUALS "); return T_EQUALS;}
 "+"           {fprintf(stderr,"T_PLUS "); return T_PLUS;}
@@ -37,12 +38,22 @@ LGS						 [Ll]
 "*"           {fprintf(stderr,"T_MULT "); return T_MULT;}
 "%"           {fprintf(stderr,"T_MOD "); return T_MOD;}
 
+"<"			      {fprintf(stderr,"T_LESSTHAN "); return T_LESSTHAN;}
+">"			      {fprintf(stderr,"T_MORETHAN "); return T_MORETHAN;}
+"=="			    {fprintf(stderr,"T_EQUALSTO "); return T_EQUALSTO;}
+"!="			    {fprintf(stderr,"T_NOT_EQUAL "); return T_NOT_EQUAL;}
+"<="			    {fprintf(stderr,"T_LESSOREQUAL "); return T_LESSOREQUAL;}
+">="			    {fprintf(stderr,"T_MOREOREQUAL "); return T_MOREOREQUAL;}
+"&&"			    {fprintf(stderr,"T_MOREOREQUAL "); return T_ANDCOND;}
+"||"			    {fprintf(stderr,"T_MOREOREQUAL "); return T_ORCOND;}
+
+
 {DIGIT}+        { fprintf(stderr,"NUMBER: %i ", atoi(yytext)); yylval.num = atoi(yytext);
                 return NUMBER;}
-"'"{ID}"'"           {fprintf(stderr,"CHAR_WORD: %s ", yytext); yylval.str= yytext;
+"'"."'"           {fprintf(stderr,"CHAR_WORD: %s ", yytext); yylval.str= yytext;
                 return CHAR_WORD;}
 
-"\""{ID}+"\""           {fprintf(stderr,"WORD: %s ", yytext); yylval.str= yytext;
+"\""[^\"]+"\""           {fprintf(stderr,"WORD: %s ", yytext); yylval.str= yytext;
                         return WORD;}
 
 
@@ -50,6 +61,9 @@ LGS						 [Ll]
 
 "int"         {fprintf(stderr,"INT "); return INT;}
 "char"        {fprintf(stderr,"CHAR "); return CHAR;}
+"if"          {fprintf(stderr, "IF "); return IF;}
+"else"          {fprintf(stderr, "ELSE "); return ELSE;}
+
 
 
 {ID}({DIGIT}|{ID})*			 {fprintf(stderr,"IDENTIFIER: %s ", yytext); yylval.str = yytext; return IDENTIFIER;}

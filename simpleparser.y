@@ -16,10 +16,11 @@ void yyerror(const char *s);
 	int num;
 	char* str;
 }
-%token  INT CHAR CHAR_WORD COMMA
+%token  INT CHAR CHAR_WORD COMMA IF ELSE AMPERSAND
 %token IDENTIFIER RETURN NUMBER WORD
 %token L_BRACE R_BRACE L_BRACKET R_BRACKET END_STATEMENT
 %token T_EQUALS T_PLUS T_DIVIDE T_MOD T_MULT T_MINUS
+%token T_EQUALSTO T_LESSTHAN T_MORETHAN T_LESSOREQUAL T_MOREOREQUAL T_NOT_EQUAL T_ANDCOND T_ORCOND
 
 
 %type <num> NUMBER
@@ -54,6 +55,23 @@ statement:
 					|RETURN expression END_STATEMENT
 					|variable_declaration
 					|variable_assign
+					|selective_statement
+
+selective_statement:
+					IF L_BRACKET condition R_BRACKET L_BRACE block R_BRACE
+					|IF L_BRACKET condition R_BRACKET L_BRACE block R_BRACE ELSE L_BRACE block R_BRACE
+					|IF L_BRACKET condition R_BRACKET statement
+					|IF L_BRACKET condition R_BRACKET statement ELSE L_BRACE block R_BRACE
+					|IF L_BRACKET condition R_BRACKET L_BRACE block R_BRACE ELSE statement
+					|IF L_BRACKET condition R_BRACKET statement ELSE statement
+
+
+
+
+condition:
+					expression
+					| expression condition_op expression
+
 
 variable_declaration:
 					type variable_assign
@@ -65,6 +83,9 @@ variable_assign:
 expression:
 					NUMBER | CHAR_WORD | WORD | IDENTIFIER | function_call
 					|expression math_op expression
+					| T_MULT expression
+					| AMPERSAND expression
+					| L_BRACKET expression R_BRACKET
 
 function_call:
 							IDENTIFIER L_BRACKET  R_BRACKET
@@ -78,8 +99,10 @@ arguments:
 					expression
 					| expression COMMA arguments
 
-type: INT | CHAR
+pointer: type T_MULT
+type: INT | CHAR | pointer
 math_op: T_EQUALS | T_PLUS | T_DIVIDE | T_MOD | T_MULT | T_MINUS
+condition_op: T_EQUALSTO | T_LESSTHAN | T_MORETHAN | T_LESSOREQUAL | T_MOREOREQUAL | T_NOT_EQUAL | T_ANDCOND | T_ORCOND
 
 	%%
 

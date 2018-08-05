@@ -1,4 +1,12 @@
 
 int main(){
+  if(10 < 'j'){
+  int* a = &5;
+  }
+  else{ int b= 7-3;}
+  // "hello"
+  printf("Enter a number");
+  int b = scanf("%d",&b);
+  printf("Your number is %d", b);
  return 5+6;
 }
