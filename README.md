@@ -2,8 +2,8 @@
 
 to run:
 ```
-$ make simplething
-$ ./simplething
+$ make bin/simplething
+$ ./bin/simplething
 ```
 
 reads from the file simplecode.txt and identifies tokens which are printed
