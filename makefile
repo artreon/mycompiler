@@ -1,19 +1,20 @@
 
 
 
-simpleparser.tab.cpp simpleparser.tab.hpp: simpleparser.y
-	bison -v -d simpleparser.y -o simpleparser.tab.cpp
+src/simpleparser.tab.cpp src/simpleparser.tab.hpp: src/simpleparser.y
+	bison -v -d src/simpleparser.y -o src/simpleparser.tab.cpp
 
-simplelexer.yy.cpp: simplelexer.flex simpleparser.tab.hpp
-	flex -o simplelexer.yy.cpp simplelexer.flex
+src/simplelexer.yy.cpp: src/simplelexer.flex src/simpleparser.tab.hpp
+	flex -o src/simplelexer.yy.cpp src/simplelexer.flex
 
-simplething: simplelexer.yy.cpp simpleparser.tab.cpp simpleparser.tab.hpp
-		g++ simpleparser.tab.cpp simplelexer.yy.cpp -lfl -o simplething
+bin/simplething: src/simplelexer.yy.cpp src/simpleparser.tab.cpp src/simpleparser.tab.hpp
+		mkdir -p bin
+		g++ src/simpleparser.tab.cpp src/simplelexer.yy.cpp -lfl -o bin/simplething
 
 clean:
 
-	rm *.tab.cpp
-	rm *.yy.cpp
-	rm *.tab.hpp
-	rm *.output
-	rm simplething
+	rm src/*.tab.cpp
+	rm src/*.yy.cpp
+	rm src/*.tab.hpp
+	rm src/*.output
+	rm bin/*
